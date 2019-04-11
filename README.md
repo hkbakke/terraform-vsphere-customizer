@@ -19,6 +19,7 @@ This is done remotely via SSH. Note that on the next boot the firstboot-script w
 
 # Supported settings
 ## Set hostname
+Set the hostname. A FQDN is expected.
 
     "guestinfo.hostname" = "hostname.example.com"
 
@@ -28,6 +29,12 @@ If no `ipv4_address` is configured for an interface, DHCP is used. If no `ipv6_a
     "guestinfo.network.<ifname>.ipv4_address" = "10.0.0.10/24"
     "guestinfo.network.<ifname>.ipv4_gateway" = "10.0.0.1"
     "guestinfo.network.<ifname>.ipv6_address" = "fd77:ba12:fcs1:88::23/64"
+
+## Configure DNS
+Note that the dns_domain is only used for resolv.conf. It is not used for hostname purposes.
+
+    "guestinfo.dns_domain" = "example.com"
+    "guestinfo.dns_servers" = "1.1.1.1, 8.8.8.8, 8.8.4.4"
 
 ## Disable customizations
 When the customizer is included in the boot image you might see that it touches the network configuration file using default settings, even with no settings configured. To disable customizations entirely:

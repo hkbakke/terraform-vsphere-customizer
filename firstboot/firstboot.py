@@ -16,7 +16,8 @@ class NetworkInterface:
 class NetworkInterfacesFile:
     def __init__(self, filename='/etc/network/interfaces'):
         self.filename = filename
-        self.content = [
+        self.content = []
+        self._default = [
             '#',
             '# Configured by firstboot.py',
             '# More info: https://github.com/hkbakke/terraform-vsphere-customizer',
@@ -46,8 +47,10 @@ class NetworkInterfacesFile:
             self.content.append('iface %s inet6 auto' % interface.name)
 
     def save(self):
+        if not self.content:
+            return
         with open(self.filename, 'w') as f:
-            f.write('\n'.join(self.content) + '\n')
+            f.write('\n'.join(self._default + self.content) + '\n')
 
 
 class HostsFile:
@@ -69,16 +72,35 @@ class HostsFile:
             f.write(self.content)
 
 
+class ResolvConf:
+    def __init__(self, filename='/etc/resolv.conf'):
+        self.filename = filename
+        self.content = []
+
+    def dns_domain(self, domain):
+        self.content.append('domain %s' % domain)
+
+    def add_dns_server(self, dns_server):
+        self.content.append('nameserver %s' % dns_server)
+
+    def save(self):
+        if not self.content:
+            return
+        with open(self.filename, 'w') as f:
+            f.write('\n'.join(self.content) + '\n')
+
+
 def set_hostname(name):
     subprocess.run(['hostnamectl', 'set-hostname', name])
 
 
-def get_vmtools_key(infokey):
+def get_vmtools_key(infokey, default=None):
+    print("Looking up vmtoolsd info key '%s'" % infokey)
     cmd = ['vmtoolsd', '--cmd', 'info-get %s' % infokey]
     p = subprocess.run(cmd, stdout=subprocess.PIPE, universal_newlines=True)
     if p.returncode == 0:
         return p.stdout.strip()
-    return None
+    return default
 
 
 def get_network_interfaces():
@@ -103,6 +125,16 @@ def main():
     for interface in get_network_interfaces():
         debian_config.add_interface(interface)
         debian_config.save()
+
+    resolv_conf = ResolvConf()
+    dns_domain = get_vmtools_key('guestinfo.dns_domain')
+    if dns_domain:
+        resolv_conf.dns_domain(dns_domain)
+    dns_servers = get_vmtools_key('guestinfo.dns_servers')
+    if dns_servers:
+        for dns_server in [i.strip() for i in dns_servers.split(',')]:
+            resolv_conf.add_dns_server(dns_server)
+    resolv_conf.save()
 
 
 if __name__ == '__main__':
