@@ -3,8 +3,9 @@ Customize vSphere VM templates when deployed from terraform. Created to compensa
 Debian support in the template customizer that VMware provides.
 
 # Requirements
-* python 3.5
 * systemd
+* open-vm-tools
+* python 3.5 or newer
 
 # Tested OS
 * Debian Stretch
