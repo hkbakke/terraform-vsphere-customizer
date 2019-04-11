@@ -24,7 +24,7 @@ This is done remotely via SSH. Note that on the next boot the firstboot-script w
 * `guestinfo.network.<ifname>.ipv6_address" = "fd77:ba12:fcs1:88::23/64"`
 
 # Usage in terraform
-Example from within your VM resource block, also including some counter fun
+Example from within your VM resource block, also including some counter fun. Just leave out any parameters that you do not need.
 
     extra_config {
       "guestinfo.hostname" = "web-${count.index + 1}.example.com"
