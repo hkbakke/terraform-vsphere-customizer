@@ -17,14 +17,25 @@ This is done remotely via SSH. Note that on the next boot the firstboot-script w
     cd terraform-vsphere-customizer/firstboot
     ./prep-template <user>@<host>
 
-# Supported parameters
-* `guestinfo.hostname" = "hostname.example.com"`
-* `guestinfo.network.<ifname>.ipv4_address" = "10.0.0.10/24"`
-* `guestinfo.network.<ifname>.ipv4_gateway" = "10.0.0.1"`
-* `guestinfo.network.<ifname>.ipv6_address" = "fd77:ba12:fcs1:88::23/64"`
+# Supported settings
+## Set hostname
+
+    "guestinfo.hostname" = "hostname.example.com"
+
+## Set IPv4 and/or IPv6 address
+If no `ipv4_address` is configured for an interface, DHCP is used. If no `ipv6_address` is set auto-configuration mode is used.
+
+    "guestinfo.network.<ifname>.ipv4_address" = "10.0.0.10/24"
+    "guestinfo.network.<ifname>.ipv4_gateway" = "10.0.0.1"
+    "guestinfo.network.<ifname>.ipv6_address" = "fd77:ba12:fcs1:88::23/64"
+
+## Disable customizations
+When the customizer is included in the boot image you might see that it touches the network configuration file using default settings, even with no settings configured. To disable customizations entirely:
+
+    "guestinfo.customize" = "false"
 
 # Usage in terraform
-Example from within your VM resource block, also including some counter fun. Just leave out any parameters that you do not need.
+Example from within a terraform VM resource block, also including some counter fun. Just leave out any parameters that you do not need.
 
     extra_config {
       "guestinfo.hostname" = "web-${count.index + 1}.example.com"
