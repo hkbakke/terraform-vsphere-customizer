@@ -1,0 +1,18 @@
+[Unit]
+Description=Initial system configuration using VMware Tools parameters
+Before=network-pre.target
+Wants=network-pre.target
+After=dbus.service
+After=local-fs.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/root/firstboot.py
+ExecStopPost=/bin/systemctl disable firstboot.service
+ExecStopPost=/bin/rm -f /root/firstboot.py
+ExecStopPost=/bin/rm -f /etc/systemd/system/firstboot.service
+ExecStopPost=/bin/systemctl daemon-reload
+
+[Install]
+WantedBy=basic.target
