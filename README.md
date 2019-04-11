@@ -15,7 +15,7 @@ This is done remotely via SSH. Note that on the next boot the firstboot-script w
 
     git clone https://github.com/hkbakke/terraform-vsphere-customizer
     cd terraform-vsphere-customizer/firstboot
-    ./prep-template <user>@<host>
+    ./prep-template.sh <user>@<host>
 
 # Supported settings
 ## Set hostname
