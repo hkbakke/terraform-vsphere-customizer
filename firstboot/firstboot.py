@@ -56,20 +56,39 @@ class NetworkInterfacesFile:
 class HostsFile:
     def __init__(self, filename='/etc/hosts'):
         self.filename = filename
-        with open(self.filename, 'r') as f:
-            self.content = f.read()
+        self.content = []
+        self._header = [
+            '#',
+            '# Configured by firstboot.py',
+            '# More info: https://github.com/hkbakke/terraform-vsphere-customizer',
+            '#',
+            '',
+        ]
+        self._default_ipv4 = [
+            '127.0.0.1\tlocalhost'
+            ]
+        self._default_ipv6 = [
+            '',
+            '# The following lines are desirable for IPv6 capable hosts',
+            '::1\tlocalhost ip6-localhost ip6-loopback',
+            'ff02::1\tip6-allnodes',
+            'ff02::2\tip6-allrouters'
+            ]
 
     def change_hostname(self, hostname):
         """
         The hostname is expected to be a FQDN
         """
-        regex = r'127\.0\.1\.1.*'
-        repl = '127.0.1.1\t%s\t%s' % (hostname, hostname.split('.')[0])
-        self.content = re.sub(regex, repl, self.content, count=1)
+        self.content = self._header
+        self.content.extend(self._default_ipv4)
+        self.content.append('127.0.1.1\t%s\t%s' % (hostname, hostname.split('.')[0]))
+        self.content.extend(self._default_ipv6)
 
     def save(self):
+        if not self.content:
+            return
         with open(self.filename, 'w') as f:
-            f.write(self.content)
+            f.write('\n'.join(self.content) + '\n')
 
 
 class ResolvConf:
