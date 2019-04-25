@@ -10,7 +10,7 @@ DefaultDependencies=no
 Type=oneshot
 ExecStart=/root/firstboot.py
 ExecStopPost=/bin/systemctl disable firstboot.service
-ExecStopPost=/bin/rm -f /root/firstboot.py
+ExecStopPost=/bin/rm -f /usr/local/sbin/firstboot.py
 ExecStopPost=/bin/rm -f /etc/systemd/system/firstboot.service
 ExecStopPost=/bin/systemctl daemon-reload
 

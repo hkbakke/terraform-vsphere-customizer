@@ -11,11 +11,10 @@ Debian support in the template customizer that VMware provides.
 * Debian Stretch
 
 # Prepare template
-This is done remotely via SSH. Note that on the next boot the firstboot-script will run and self-destruct, so you must run `prep-template` every time you create a VM before you shut it down and convert it to a template for terraform use.
+Before shutting down your template VM for terraform do this
 
-    git clone https://github.com/hkbakke/terraform-vsphere-customizer
-    cd terraform-vsphere-customizer/firstboot
-    ./prep-template.sh <user>@<host>
+    wget -O bootstrap.sh https://raw.githubusercontent.com/hkbakke/terraform-vsphere-customizer/master/bootstrap.sh
+    sudo sh bootstrap.sh
 
 # Supported settings
 ## Set hostname
