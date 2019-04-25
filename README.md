@@ -14,7 +14,7 @@ Debian support in the template customizer that VMware provides.
 Before shutting down your template VM for terraform do this
 
     wget -O bootstrap.sh https://raw.githubusercontent.com/hkbakke/terraform-vsphere-customizer/master/bootstrap.sh
-    sudo sh bootstrap.sh
+    sudo bash bootstrap.sh
 
 # Supported settings
 ## Set hostname
