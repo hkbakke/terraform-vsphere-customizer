@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 url="https://github.com/hkbakke/terraform-vsphere-customizer/archive/master.tar.gz"
 download_dir="/tmp"
@@ -25,7 +25,7 @@ install () {
 }
 
 cleanup () {
-    [[ -d $source_dir ]] && rm -r "$source_dir"
+    [ -d "$source_dir" ] && rm -r "$source_dir"
     rm bootstrap.sh
 }
 
@@ -33,7 +33,7 @@ cleanup () {
 set -e
 
 # Make it possible to override download url
-if [[ -n $1 ]]; then
+if [ -n "$1" ]; then
     url=$1
 fi
 
