@@ -5,7 +5,7 @@ Debian support in the template customizer that VMware provides.
 # Requirements
 * systemd
 * open-vm-tools
-* python 3.5 or newer
+* python 3.5 or newer (automatically pulled in by open-vm-tools on Debian)
 
 # Tested OS
 * Debian Stretch
