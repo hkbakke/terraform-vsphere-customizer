@@ -15,6 +15,10 @@ Before shutting down your template VM for terraform do this
 
     wget -O bootstrap.sh https://raw.githubusercontent.com/hkbakke/terraform-vsphere-customizer/master/bootstrap.sh
     sudo sh bootstrap.sh
+    
+`bootstrap.sh` pulls down `https://github.com/hkbakke/terraform-vsphere-customizer/archive/master.tar.gz`. However, if you are offline you can manually download the latest master.tar.gz and provide the internal location as an argument:
+
+    sudo sh bootstrap.sh <url_to_master.tar.gz>
 
 # Supported settings
 ## Set hostname
