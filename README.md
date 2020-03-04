@@ -1,4 +1,4 @@
-# Note about this project
+# DEPRECATED
 This project was created when the cloud-init integration with vSphere was somewhat lacking, or at least little known. This is not the case anymore, so you should use the cloud-init approach with terraform in the future. There will be no future development in this project.
 
 # terraform-vsphere-customizer
